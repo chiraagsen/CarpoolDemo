@@ -28,6 +28,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 
 public class Sign_up extends AppCompatActivity {
+    private FirebaseUser mUser;
     private FirebaseAuth mAuth;
     private FirebaseFirestore firestore;
     private LinearLayout layout;
@@ -37,8 +38,7 @@ public class Sign_up extends AppCompatActivity {
     private EditText gradYearField;
     private Spinner userRoleSpinner;
     private String selectedRole;
-    private String uid;
-    private static int uidGenerator = 1;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +49,6 @@ public class Sign_up extends AppCompatActivity {
         layout = findViewById(R.id.linearLayoutCreateUser);
         userRoleSpinner = findViewById(R.id.spinner2);
         setupSpinner();
-        uid = "" + uidGenerator;
-        uidGenerator++;
     }
 
     // setup spinner where user selects what user type they want to make an account for
@@ -103,8 +101,6 @@ public class Sign_up extends AppCompatActivity {
 
 
     public void signUp(View v) {
-        DocumentReference newUserRef= firestore.collection("users").document();
-        String userId = newUserRef.getId();
         String nameString = nameField.getText().toString();
         String emailString = emailField.getText().toString();
         String passwordString = passwordField.getText().toString();
@@ -117,6 +113,10 @@ public class Sign_up extends AppCompatActivity {
                             Log.d("SIGN UP", "successfully signed up the user");
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
+
+                            mUser = mAuth.getCurrentUser();
+                            userId = mUser.getUid();
+                            addUserToDataBase(nameString, emailString);
                         }
                         else {
                             Log.d("SIGN UP", "createUserWithEmail:failure", task.getException());
@@ -125,10 +125,13 @@ public class Sign_up extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    public void addUserToDataBase(String nameString, String emailString){
         if(selectedRole.equals("Alumni")) {
             int gradYearInt = Integer.parseInt(gradYearField.getText().toString());
             Alumni newUser = new Alumni(userId, nameString, emailString, "Alumni", 0.0, ""+gradYearInt);
-            newUserRef.set(newUser);
+            firestore.collection("users").document(userId).set(newUser);
         }
     }
 

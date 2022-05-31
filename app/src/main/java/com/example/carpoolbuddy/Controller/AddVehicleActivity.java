@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -174,15 +175,14 @@ public class AddVehicleActivity extends AppCompatActivity {
 
 
 
-        String owner = mAuth.getCurrentUser().getUid();
+        String ownerId = mAuth.getCurrentUser().getUid();
 
         ArrayList<User> riderUids = new ArrayList<>();
 
         if(selectedRole.equals("Car")) {
-            owner = mAuth.getCurrentUser().getUid();
             int capacity = Integer.parseInt(capacityString);
             basePriceV = Double.parseDouble(basePrice.getText().toString());
-            newVehicle = new Car(vehicleID, modelString, capacity, basePriceV, owner);
+            newVehicle = new Car(modelString, capacity, basePriceV, vehicleID,ownerId);
 
             // firestore.collection("vehicles").document(vehicleID).set(newVehicle);
         }
@@ -191,7 +191,7 @@ public class AddVehicleActivity extends AppCompatActivity {
             int weightCapacityInt = Integer.parseInt(weightCapacity.getText().toString());
             int weightInt = Integer.parseInt(weight.getText().toString());
             int range = Integer.parseInt(extraField.getText().toString());
-            newVehicle = new Segway(vehicleID, modelString, owner, weightInt, basePriceV, range, weightCapacityInt);
+            newVehicle = new Segway(vehicleID, modelString, ownerId, weightInt, basePriceV, range, weightCapacityInt);
         }
 
         else if(selectedRole.equals("Helicopter")) {
@@ -200,14 +200,14 @@ public class AddVehicleActivity extends AppCompatActivity {
             int maxHeightInt = Integer.parseInt(maxHeightString);
             int capacity = Integer.parseInt(capacityString);
             int maxAirSpeedInt = Integer.parseInt(maxAirSpeed.getText().toString());
-            newVehicle = new Helicopter(vehicleID, modelString,capacity, basePriceV, owner, maxHeightInt, maxAirSpeedInt);
+            newVehicle = new Helicopter(vehicleID, modelString,capacity, basePriceV, ownerId, maxHeightInt, maxAirSpeedInt);
         }
         else if (selectedRole.equals("Bicycle")) {
             String bikeType = extraField.getText().toString();
             int capacity = Integer.parseInt(capacityString);
             int weightInt = Integer.parseInt(weight.getText().toString());
             int weightCapacityInt = Integer.parseInt(weightCapacity.getText().toString());
-            newVehicle = new Bicycle(owner, modelString, capacity, vehicleID, basePriceV, bikeType, weightInt, weightCapacityInt);
+            newVehicle = new Bicycle(ownerId, modelString, capacity, vehicleID, basePriceV, bikeType, weightInt, weightCapacityInt);
         }
 
         newRideRef.set(newVehicle);

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Vehicle implements Serializable {
-    private String owner;
     private String model;
     private int capacity;
     private String vehicleID;
@@ -18,8 +17,7 @@ public class Vehicle implements Serializable {
 
     }
 
-    public Vehicle(String owner, String model, int capacity, String vehicleType, double basePrice, String vehicleID, String ownerUID) {
-        this.owner = owner;
+    public Vehicle(String model, int capacity, String vehicleType, double basePrice, String vehicleID, String ownerUID) {
         this.model = model;
         this.capacity = capacity;
         this.vehicleType = vehicleType;
@@ -27,6 +25,7 @@ public class Vehicle implements Serializable {
         this.vehicleID = vehicleID;
         this.ownerUID = ownerUID;
         this.open = true;
+        this.ridersUIDs = new ArrayList();
     }
 
     public String getOwner() {
