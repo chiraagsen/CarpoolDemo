@@ -12,7 +12,7 @@ public class Teacher extends User {
     }
 
     public Teacher(String uid, String name, String email, String userType, double priceMultiplier, ArrayList ownedVehicle, String inSchoolTitle) {
-        super(uid, name, email, userType, priceMultiplier, ownedVehicle);
+        super(uid, name, email, userType, priceMultiplier);
         this.inSchoolTitle = inSchoolTitle;
     }
 

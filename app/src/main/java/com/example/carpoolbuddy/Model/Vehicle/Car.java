@@ -2,25 +2,22 @@ package com.example.carpoolbuddy.Model.Vehicle;
 
 import java.util.ArrayList;
 
-public class Car extends Vehicle{
-    private int range;
-    private String model;
-    private int capacity;
-    private double basePrice;
-    private String owner;
-    private String vehicleID;
+public class Car extends Vehicle {
 
-    public Car(){
-        super();
+    private int range;
+
+    public Car() {
     }
 
-    public Car(String vehicleID, String model, int capacity, double basePrice, String owner, int range) {
+    public Car(String owner, String model, int capacity, String vehicleID, ArrayList<String> ridersUIDs, boolean open, String vehicleType, double basePrice, int range) {
+        //super(owner, model, capacity, vehicleID, ridersUIDs, open, vehicleType, basePrice);
         this.range = range;
-        this.model = model;
-        this.capacity = capacity;
-        this.basePrice = basePrice;
-        this.owner = owner;
-        this.vehicleID = vehicleID;
+    }
+    public Car(String owner, String model, int capacity, double basePrice, String vehicleID){
+        //super(owner, model,capacity,vehicleID, new ArrayList<>(), true, "car", basePrice);
+
+        range = 25;
+        this.setVehicleType("Car");
     }
 
     public int getRange() {
@@ -31,63 +28,10 @@ public class Car extends Vehicle{
         this.range = range;
     }
 
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    @Override
-    public int getCapacity() {
-        return capacity;
-    }
-
-    @Override
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-
-    @Override
-    public double getBasePrice() {
-        return basePrice;
-    }
-
-    @Override
-    public void setBasePrice(double basePrice) {
-        this.basePrice = basePrice;
-    }
-
-    @Override
-    public String getOwner() {
-        return owner;
-    }
-
-    @Override
-    public void setOwner(String owner) {
-        this.owner = owner;
-    }
-
-    @Override
-    public String getVehicleID() {
-        return vehicleID;
-    }
-
-    @Override
-    public void setVehicleID(String vehicleID) {
-        this.vehicleID = vehicleID;
-    }
-
     @Override
     public String toString() {
         return "Car{" +
                 "range=" + range +
-                ", model='" + model + '\'' +
-                ", capacity=" + capacity +
-                ", basePrice=" + basePrice +
-                ", owner='" + owner + '\'' +
-                ", vehicleID='" + vehicleID + '\'' +
                 '}';
     }
 }

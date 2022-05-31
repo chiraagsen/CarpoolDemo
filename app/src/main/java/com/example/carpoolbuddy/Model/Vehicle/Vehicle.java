@@ -8,24 +8,25 @@ public class Vehicle implements Serializable {
     private String model;
     private int capacity;
     private String vehicleID;
-    private ArrayList ridersUIDS;
+    private ArrayList<String> ridersUIDs;
     private boolean open;
     private String vehicleType;
     private double basePrice;
+    private String ownerUID;
 
-    public Vehicle(){
+    public Vehicle() {
 
     }
 
-    public Vehicle(String owner, String model, int capacity, String vehicleID, ArrayList ridersUIDS, boolean open, String vehicleType, double basePrice) {
+    public Vehicle(String owner, String model, int capacity, String vehicleType, double basePrice, String vehicleID, String ownerUID) {
         this.owner = owner;
         this.model = model;
         this.capacity = capacity;
-        this.vehicleID = vehicleID;
-        this.ridersUIDS = ridersUIDS;
-        this.open = open;
         this.vehicleType = vehicleType;
         this.basePrice = basePrice;
+        this.vehicleID = vehicleID;
+        this.ownerUID = ownerUID;
+        this.open = true;
     }
 
     public String getOwner() {
@@ -60,12 +61,12 @@ public class Vehicle implements Serializable {
         this.vehicleID = vehicleID;
     }
 
-    public ArrayList getRidersUIDS() {
-        return ridersUIDS;
+    public ArrayList<String> getRidersUIDs() {
+        return ridersUIDs;
     }
 
-    public void setRidersUIDS(ArrayList ridersUIDS) {
-        this.ridersUIDS = ridersUIDS;
+    public void setRidersUIDs(ArrayList<String> ridersUIDs) {
+        this.ridersUIDs = ridersUIDs;
     }
 
     public boolean isOpen() {
@@ -97,12 +98,21 @@ public class Vehicle implements Serializable {
         return "Vehicle{" +
                 "owner='" + owner + '\'' +
                 ", model='" + model + '\'' +
-                ", capacity=" + capacity +
+                ", capacity='" + capacity + '\'' +
                 ", vehicleID='" + vehicleID + '\'' +
-                ", ridersUIDS=" + ridersUIDS +
+                ", ridersUIDs=" + ridersUIDs +
                 ", open=" + open +
                 ", vehicleType='" + vehicleType + '\'' +
-                ", basePrice=" + basePrice +
+                ", basePrice='" + basePrice + '\'' +
+                ", ownerUID='" + ownerUID + '\'' +
                 '}';
+    }
+
+    public String getOwnerUID() {
+        return ownerUID;
+    }
+
+    public void setOwnerUID(String ownerUID) {
+        this.ownerUID = ownerUID;
     }
 }

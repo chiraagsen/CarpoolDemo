@@ -7,12 +7,12 @@ import java.util.ArrayList;
 public class Alumni extends User {
     private String graduateYear;
 
-    public Alumni(String uid, String nameString, String emailString, int gradYearInt){
+    public Alumni(){
         super();
     }
 
-    public Alumni(String uid, String name, String email, String userType, double priceMultiplier, ArrayList ownedVehicle, String graduateYear) {
-        super(uid, name, email, userType, priceMultiplier, ownedVehicle);
+    public Alumni(String uid, String name, String email, String userType, double priceMultiplier, String graduateYear) {
+        super(uid, name, email, userType, priceMultiplier);
         this.graduateYear = graduateYear;
     }
 

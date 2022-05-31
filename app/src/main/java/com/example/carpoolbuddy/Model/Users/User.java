@@ -14,13 +14,13 @@ public class User {
 
     }
 
-    public User(String uid, String name, String email, String userType, double priceMultiplier, ArrayList ownedVehicle) {
+    public User(String uid, String name, String email, String userType, double priceMultiplier) {
         this.uid = uid;
         this.name = name;
         this.email = email;
         UserType = userType;
         this.priceMultiplier = priceMultiplier;
-        this.ownedVehicle = ownedVehicle;
+        this.ownedVehicle = new ArrayList();
     }
 
     public String getUid() {

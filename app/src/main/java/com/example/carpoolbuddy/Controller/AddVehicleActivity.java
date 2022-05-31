@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+import com.example.carpoolbuddy.Model.Users.User;
 import com.example.carpoolbuddy.Model.Vehicle.Car;
 import com.example.carpoolbuddy.Model.Vehicle.Helicopter;
 import com.example.carpoolbuddy.Model.Vehicle.Bicycle;
@@ -142,7 +143,7 @@ public class AddVehicleActivity extends AppCompatActivity {
 
         //generate + get new key
         DocumentReference newRideRef = firestore.collection("Vehicle").document();
-        String vehicleId = newRideRef.getId();
+        String vehicleID = newRideRef.getId();
 
         //make new vehicle according to selected vehicle type
         Vehicle newVehicle = null;
@@ -171,20 +172,26 @@ public class AddVehicleActivity extends AppCompatActivity {
         String capacityString = capacity.getText().toString();
         double basePriceV = Double.parseDouble(basePrice.getText().toString());
 
+
+
         String owner = mAuth.getCurrentUser().getUid();
 
+        ArrayList<User> riderUids = new ArrayList<>();
+
         if(selectedRole.equals("Car")) {
+            owner = mAuth.getCurrentUser().getUid();
             int capacity = Integer.parseInt(capacityString);
-            int range = Integer.parseInt(extraField.getText().toString());
-            newVehicle = new Car(vehicleId, modelString, capacity, basePriceV, owner, range);
-            //firestore.collection("vehicles").document(vehicleID).set(newVehicle);
+            basePriceV = Double.parseDouble(basePrice.getText().toString());
+            newVehicle = new Car(vehicleID, modelString, capacity, basePriceV, owner);
+
+            // firestore.collection("vehicles").document(vehicleID).set(newVehicle);
         }
 
         else if(selectedRole.equals("Segway")) {
             int weightCapacityInt = Integer.parseInt(weightCapacity.getText().toString());
             int weightInt = Integer.parseInt(weight.getText().toString());
             int range = Integer.parseInt(extraField.getText().toString());
-            newVehicle = new Segway(vehicleId, modelString, owner, weightInt, basePriceV, range, weightCapacityInt);
+            newVehicle = new Segway(vehicleID, modelString, owner, weightInt, basePriceV, range, weightCapacityInt);
         }
 
         else if(selectedRole.equals("Helicopter")) {
@@ -193,14 +200,14 @@ public class AddVehicleActivity extends AppCompatActivity {
             int maxHeightInt = Integer.parseInt(maxHeightString);
             int capacity = Integer.parseInt(capacityString);
             int maxAirSpeedInt = Integer.parseInt(maxAirSpeed.getText().toString());
-            newVehicle = new Helicopter(vehicleId, modelString,capacity, basePriceV, owner, maxHeightInt, maxAirSpeedInt);
+            newVehicle = new Helicopter(vehicleID, modelString,capacity, basePriceV, owner, maxHeightInt, maxAirSpeedInt);
         }
         else if (selectedRole.equals("Bicycle")) {
             String bikeType = extraField.getText().toString();
             int capacity = Integer.parseInt(capacityString);
             int weightInt = Integer.parseInt(weight.getText().toString());
             int weightCapacityInt = Integer.parseInt(weightCapacity.getText().toString());
-            newVehicle = new Bicycle(owner, modelString, capacity, vehicleId, basePriceV, bikeType, weightInt, weightCapacityInt);
+            newVehicle = new Bicycle(owner, modelString, capacity, vehicleID, basePriceV, bikeType, weightInt, weightCapacityInt);
         }
 
         newRideRef.set(newVehicle);

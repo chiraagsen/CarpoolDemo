@@ -13,7 +13,7 @@ public class Student extends User {
     }
 
     public Student(String uid, String name, String email, String userType, double priceMultiplier, ArrayList ownedVehicle, String graduatingYear, ArrayList parentUIDs) {
-        super(uid, name, email, userType, priceMultiplier, ownedVehicle);
+        super(uid, name, email, userType, priceMultiplier);
         this.graduatingYear = graduatingYear;
         this.parentUIDs = parentUIDs;
     }

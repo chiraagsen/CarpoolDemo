@@ -12,7 +12,7 @@ public class Parent extends User {
     }
 
     public Parent(String uid, String name, String email, String userType, double priceMultiplier, ArrayList ownedVehicle, ArrayList childUIDs) {
-        super(uid, name, email, userType, priceMultiplier, ownedVehicle);
+        super(uid, name, email, userType, priceMultiplier);
         this.childUIDs = childUIDs;
     }
 

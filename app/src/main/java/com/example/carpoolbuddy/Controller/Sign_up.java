@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -102,13 +103,14 @@ public class Sign_up extends AppCompatActivity {
 
 
     public void signUp(View v) {
+        DocumentReference newUserRef= firestore.collection("users").document();
+        String userId = newUserRef.getId();
         String nameString = nameField.getText().toString();
         String emailString = emailField.getText().toString();
         String passwordString = passwordField.getText().toString();
 //        System.out.print("Email is"+emailString);
 //        System.out.print("Password is"+passwordString);
-        mAuth.createUserWithEmailAndPassword(emailString, passwordString)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        mAuth.createUserWithEmailAndPassword(emailString, passwordString).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()) {
@@ -125,9 +127,8 @@ public class Sign_up extends AppCompatActivity {
                 });
         if(selectedRole.equals("Alumni")) {
             int gradYearInt = Integer.parseInt(gradYearField.getText().toString());
-            Alumni newUser = new Alumni(uid, nameString, emailString, gradYearInt);
-            uidGenerator++;
-            firestore.collection("people").document(uid).set(newUser);
+            Alumni newUser = new Alumni(userId, nameString, emailString, "Alumni", 0.0, ""+gradYearInt);
+            newUserRef.set(newUser);
         }
     }
 

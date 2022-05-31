@@ -12,10 +12,10 @@ public class Bicycle extends Vehicle {
     private int weightCapacity;
 
     public Bicycle(){
-        super();
     }
-
+    //String owner, String model, String capacity, String vehicleType, String basePrice, String vehicleID, String ownerUID,String bicycleType, String weightCapacity
     public Bicycle(String owner, String model, int capacity, String vehicleID, double basePrice, String bicycleType, int weight, int weightCapacity) {
+        //super(owner, model, capacity, basePrice, vehicleID);
         this.bicycleType = bicycleType;
         this.owner = owner;
         this.capacity = capacity;
@@ -102,3 +102,5 @@ public class Bicycle extends Vehicle {
                 '}';
     }
 }
+
+
