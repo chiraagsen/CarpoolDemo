@@ -11,7 +11,7 @@ public class Teacher extends User {
         super();
     }
 
-    public Teacher(String uid, String name, String email, String userType, double priceMultiplier, ArrayList ownedVehicle, String inSchoolTitle) {
+    public Teacher(String uid, String name, String email, String userType, double priceMultiplier, String inSchoolTitle) {
         super(uid, name, email, userType, priceMultiplier);
         this.inSchoolTitle = inSchoolTitle;
     }

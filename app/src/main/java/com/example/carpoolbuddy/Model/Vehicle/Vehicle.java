@@ -2,8 +2,10 @@ package com.example.carpoolbuddy.Model.Vehicle;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Vehicle implements Serializable {
+public class Vehicle implements Serializable, Parcelable {
     private String model;
     private int capacity;
     private String vehicleID;
@@ -28,12 +30,33 @@ public class Vehicle implements Serializable {
         this.ridersUIDs = new ArrayList();
     }
 
-    public String getOwner() {
-        return owner;
+
+    protected Vehicle(Parcel in) {
+        model = in.readString();
+        capacity = in.readInt();
+        vehicleID = in.readString();
+        ridersUIDs = in.createStringArrayList();
+        open = in.readByte() != 0;
+        vehicleType = in.readString();
+        basePrice = in.readDouble();
+        ownerUID = in.readString();
     }
 
-    public void setOwner(String owner) {
-        this.owner = owner;
+    public static final Creator<Vehicle> CREATOR = new Creator<Vehicle>() {
+        @Override
+        public Vehicle createFromParcel(Parcel in) {
+            return new Vehicle(in);
+        }
+
+        @Override
+        public Vehicle[] newArray(int size) {
+            return new Vehicle[size];
+        }
+    };
+
+    public void addRidersUIDs(String riderUID)
+    {
+        this.ridersUIDs.add(riderUID);
     }
 
     public String getModel() {
@@ -95,8 +118,7 @@ public class Vehicle implements Serializable {
     @Override
     public String toString() {
         return "Vehicle{" +
-                "owner='" + owner + '\'' +
-                ", model='" + model + '\'' +
+                "model='" + model + '\'' +
                 ", capacity='" + capacity + '\'' +
                 ", vehicleID='" + vehicleID + '\'' +
                 ", ridersUIDs=" + ridersUIDs +
@@ -113,5 +135,22 @@ public class Vehicle implements Serializable {
 
     public void setOwnerUID(String ownerUID) {
         this.ownerUID = ownerUID;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(model);
+        dest.writeInt(capacity);
+        dest.writeString(vehicleID);
+        dest.writeStringList(ridersUIDs);
+        dest.writeByte((byte) (open ? 1 : 0));
+        dest.writeString(vehicleType);
+        dest.writeDouble(basePrice);
+        dest.writeString(ownerUID);
     }
 }

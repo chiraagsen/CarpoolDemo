@@ -1,8 +1,8 @@
 package com.example.carpoolbuddy.Controller;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.carpoolbuddy.Model.Users.User;
 import com.example.carpoolbuddy.Model.Vehicle.Car;
@@ -19,15 +20,10 @@ import com.example.carpoolbuddy.Model.Vehicle.Bicycle;
 import com.example.carpoolbuddy.Model.Vehicle.Segway;
 import com.example.carpoolbuddy.Model.Vehicle.Vehicle;
 import com.example.carpoolbuddy.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+
 
 import java.util.ArrayList;
 
@@ -35,13 +31,15 @@ public class AddVehicleActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore firestore;
     private LinearLayout layout;
-    private EditText model;
-    private EditText capacity;
-    private EditText basePrice;
-    private EditText extraField;
-    private EditText weight;
-    private EditText weightCapacity;
-    private EditText maxAirSpeed;
+    private EditText modelEditText;
+    private EditText capacityEditText;
+    private EditText basePriceEditText;
+    private EditText maxAltitudeEditText;
+    private EditText rangeEditText;
+    private EditText weightEditText;
+    private EditText weightCapacityEditText;
+    private EditText maxAirSpeedEditText;
+    private EditText bicycleTypeEditText;
     private Spinner userRoleSpinner;
     private String selectedRole;
     private String vid;
@@ -88,60 +86,65 @@ public class AddVehicleActivity extends AppCompatActivity {
     public void addFields() {
         commonFields();
         if(selectedRole.equals("Bicycle")) {
-            extraField = new EditText(this);
-            extraField.setHint("Bicycle type");
-            weightCapacity = new EditText(this);
-            weightCapacity.setHint("Weight capacity");
-            weight = new EditText(this);
-            weight.setHint("Weight");
-            layout.addView(extraField);
-            layout.addView(weight);
-            layout.addView(weightCapacity);
+
+            bicycleTypeEditText = new EditText(this);
+            bicycleTypeEditText.setHint("Bicycle type");
+
+            weightCapacityEditText = new EditText(this);
+            weightCapacityEditText.setHint("Weight capacity");
+
+            weightEditText = new EditText(this);
+            weightEditText.setHint("Weight");
+
+            layout.addView(bicycleTypeEditText);
+            layout.addView(weightEditText);
+            layout.addView(weightCapacityEditText);
         }
         else if(selectedRole.equals("Car")) {
 
-            extraField = new EditText(this);
-            extraField.setHint("Range");
-            layout.addView(extraField);
+            rangeEditText = new EditText(this);
+            rangeEditText.setHint("Range");
+
+            layout.addView(rangeEditText);
         }
         else if(selectedRole.equals("Segway")) {
 
-            extraField = new EditText(this);
-            extraField.setHint("Range");
-            weightCapacity = new EditText(this);
-            weightCapacity.setHint("Weight capacity");
-            weight = new EditText(this);
-            weight.setHint("weight");
-            layout.addView(extraField);
-            layout.addView(weightCapacity);
-            layout.addView(weight);
+            rangeEditText = new EditText(this);
+            rangeEditText.setHint("Range");
+
+            weightCapacityEditText = new EditText(this);
+            weightCapacityEditText.setHint("Weight capacity");
+
+            layout.addView(rangeEditText);
+            layout.addView(weightCapacityEditText);
         }
         else if(selectedRole.equals("Helicopter")) {
 
-            extraField = new EditText(this);
-            extraField.setHint("Max altitude");
-            maxAirSpeed = new EditText(this);
-            maxAirSpeed.setHint("Max air speed");
-            layout.addView(extraField);
-            layout.addView(maxAirSpeed);
+            maxAltitudeEditText = new EditText(this);
+            maxAltitudeEditText.setHint("Max altitude");
+
+            maxAirSpeedEditText = new EditText(this);
+            maxAirSpeedEditText.setHint("Max air speed");
+
+            layout.addView(maxAltitudeEditText);
+            layout.addView(maxAirSpeedEditText);
         }
     }
 
     public void commonFields() {
         layout.removeAllViewsInLayout();
-        model = new EditText(this);
-        model.setHint("Model");
-        layout.addView(model);
-        capacity = new EditText(this);
-        capacity.setHint("capacity");
-        layout.addView(capacity);
-        basePrice = new EditText(this);
-        basePrice.setHint("Base Price");
-        layout.addView(basePrice);
+        modelEditText = new EditText(this);
+        modelEditText.setHint("Model");
+        layout.addView(modelEditText);
+        capacityEditText = new EditText(this);
+        capacityEditText.setHint("capacity");
+        layout.addView(capacityEditText);
+        basePriceEditText = new EditText(this);
+        basePriceEditText.setHint("Base Price");
+        layout.addView(basePriceEditText);
     }
 
     public void createVehicle(View v) {
-
         //generate + get new key
         DocumentReference newRideRef = firestore.collection("Vehicle").document();
         String vehicleID = newRideRef.getId();
@@ -149,67 +152,48 @@ public class AddVehicleActivity extends AppCompatActivity {
         //make new vehicle according to selected vehicle type
         Vehicle newVehicle = null;
 
-
-/*
-        //check which type of vehicle was created
-        if(selectedType.equals("Car")) {
-            int capacityInt = Integer.parseInt(capacityField.getText().toString());
-            newVehicle = new Car(5, ownerString, modelString, 5,vehicleId, );
-        }
-        else if(selectedType.equals("Bicycle")) {
-            int capacityInt = Integer.parseInt(capacityField.getText().toString());
-            newVehicle = new Bicycle(ownerString, modelString, capacityInt, vehicleId, basePriceDouble);
-        }
-        else if(selectedType.equals("Helicopter")) {
-            newVehicle = new Helicopter(ownerString, modelString, 2, vehicleId, basePriceDouble);
-        }
-
-        //add the new vehicle to the database
-        newRideRef.set(newVehicle);
-
-        */
         //get data from form
-        String modelString  = model.getText().toString();
-        String capacityString = capacity.getText().toString();
-        double basePriceV = Double.parseDouble(basePrice.getText().toString());
-
-
-
+        String modelString  = modelEditText.getText().toString();
+        int capacityData = Integer.parseInt(capacityEditText.getText().toString());
+        double basePriceV = Double.parseDouble(basePriceEditText.getText().toString());
         String ownerId = mAuth.getCurrentUser().getUid();
-
         ArrayList<User> riderUids = new ArrayList<>();
 
         if(selectedRole.equals("Car")) {
-            int capacity = Integer.parseInt(capacityString);
-            basePriceV = Double.parseDouble(basePrice.getText().toString());
-            newVehicle = new Car(modelString, capacity, basePriceV, vehicleID,ownerId);
-
-            // firestore.collection("vehicles").document(vehicleID).set(newVehicle);
+            int range = Integer.parseInt(rangeEditText.getText().toString());
+            newVehicle = new Car(modelString, capacityData, basePriceV, vehicleID,ownerId,range);
         }
 
         else if(selectedRole.equals("Segway")) {
-            int weightCapacityInt = Integer.parseInt(weightCapacity.getText().toString());
-            int weightInt = Integer.parseInt(weight.getText().toString());
-            int range = Integer.parseInt(extraField.getText().toString());
-            newVehicle = new Segway(vehicleID, modelString, ownerId, weightInt, basePriceV, range, weightCapacityInt);
+            int weightCapacity = Integer.parseInt(weightCapacityEditText.getText().toString());
+            int range = Integer.parseInt(rangeEditText.getText().toString());
+            newVehicle = new Segway(modelString, capacityData, basePriceV, vehicleID, ownerId, range, weightCapacity);
         }
 
         else if(selectedRole.equals("Helicopter")) {
 
-            String maxHeightString = extraField.getText().toString();
+            String maxHeightString = maxAltitudeEditText.getText().toString();
             int maxHeightInt = Integer.parseInt(maxHeightString);
-            int capacity = Integer.parseInt(capacityString);
-            int maxAirSpeedInt = Integer.parseInt(maxAirSpeed.getText().toString());
-            newVehicle = new Helicopter(vehicleID, modelString,capacity, basePriceV, ownerId, maxHeightInt, maxAirSpeedInt);
+            int maxAirSpeedInt = Integer.parseInt(maxAirSpeedEditText.getText().toString());
+            newVehicle = new Helicopter(modelString, capacityData, basePriceV, vehicleID, ownerId, maxHeightInt, maxAirSpeedInt);
         }
         else if (selectedRole.equals("Bicycle")) {
-            String bikeType = extraField.getText().toString();
-            int capacity = Integer.parseInt(capacityString);
-            int weightInt = Integer.parseInt(weight.getText().toString());
-            int weightCapacityInt = Integer.parseInt(weightCapacity.getText().toString());
-            newVehicle = new Bicycle(ownerId, modelString, capacity, vehicleID, basePriceV, bikeType, weightInt, weightCapacityInt);
+            String bicycleType = bicycleTypeEditText.getText().toString();
+            int weightInt = Integer.parseInt(weightEditText.getText().toString());
+            int weightCapacityInt = Integer.parseInt(weightCapacityEditText.getText().toString());
+            newVehicle = new Bicycle(modelString, capacityData, basePriceV, vehicleID, ownerId, bicycleType, weightInt, weightCapacityInt);
+        }
+        else{
+            Toast.makeText(AddVehicleActivity.this,"Something went wrong", Toast.LENGTH_LONG).show();
         }
 
         newRideRef.set(newVehicle);
+        Intent intent = new Intent(this, UserProfileActivity.class);
+        startActivity(intent);
+    }
+
+    public void gotoUserProfile(View v) {
+        Intent intent = new Intent(this, UserProfileActivity.class);
+        startActivity(intent);
     }
 }

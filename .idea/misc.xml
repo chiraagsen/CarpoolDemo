@@ -4,12 +4,15 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/layout/activity_add_vehicle.xml" value="0.19610507246376813" />
-        <entry key="app/src/main/res/layout/activity_auth.xml" value="0.1677464803059896" />
+        <entry key="app/src/main/res/layout/activity_auth.xml" value="0.2661514282226563" />
+        <entry key="app/src/main/res/layout/activity_error.xml" value="0.23489583333333333" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.13831939697265627" />
         <entry key="app/src/main/res/layout/activity_user_profile.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/activity_vehicle_info.xml" value="0.24781863447548697" />
-        <entry key="app/src/main/res/layout/activity_vehicle_profile.xml" value="0.19610507246376813" />
+        <entry key="app/src/main/res/layout/activity_vehicle_profile.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/rec_view.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/recycler_view.xml" value="0.1" />
       </map>
     </option>
   </component>

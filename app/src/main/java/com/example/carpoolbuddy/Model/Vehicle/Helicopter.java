@@ -1,26 +1,26 @@
 package com.example.carpoolbuddy.Model.Vehicle;
 
+import java.util.ArrayList;
+
 public class Helicopter extends Vehicle{
     private int maxAltitude;
     private int maxAirSpeed;
-    private String vehicleId;
-    private String model;
-    private int capacity;
-    private double basePrice;
-    private String owner;
+
 
     public Helicopter(){
         super();
     }
 
-    public Helicopter(String vehicleId, String model , int capacity, double basePrice, String owner,int maxAltitude, int maxAirSpeed) {
+    public Helicopter(String owner, String model, int capacity, String vehicleID, ArrayList<String> ridersUIDs, boolean open, String vehicleType, double basePrice, int maxAltitude, int maxAirSpeed) {
         this.maxAltitude = maxAltitude;
         this.maxAirSpeed = maxAirSpeed;
-        this.vehicleId = vehicleId;
-        this.model = model;
-        this.capacity = capacity;
-        this.basePrice = basePrice;
-        this.owner = owner;
+    }
+
+    public Helicopter(String model, int capacity, double basePrice, String vehicleID, String ownerId, int maxAltitude, int maxAirSpeed){
+        super(model, capacity, "Segway", basePrice, vehicleID, ownerId);
+        this.maxAltitude =maxAltitude;
+        this.maxAirSpeed=maxAirSpeed;
+        this.setVehicleType("Helicopter");
     }
 
     public int getMaxAltitude() {
@@ -39,62 +39,11 @@ public class Helicopter extends Vehicle{
         this.maxAirSpeed = maxAirSpeed;
     }
 
-    public String getVehicleId() {
-        return vehicleId;
-    }
-
-    public void setVehicleId(String vehicleId) {
-        this.vehicleId = vehicleId;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    @Override
-    public int getCapacity() {
-        return capacity;
-    }
-
-    @Override
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-
-    @Override
-    public double getBasePrice() {
-        return basePrice;
-    }
-
-    @Override
-    public void setBasePrice(double basePrice) {
-        this.basePrice = basePrice;
-    }
-
-    @Override
-    public String getOwner() {
-        return owner;
-    }
-
-    @Override
-    public void setOwner(String owner) {
-        this.owner = owner;
-    }
-
     @Override
     public String toString() {
         return "Helicopter{" +
                 "maxAltitude=" + maxAltitude +
                 ", maxAirSpeed=" + maxAirSpeed +
-                ", vehicleId='" + vehicleId + '\'' +
-                ", model='" + model + '\'' +
-                ", capacity=" + capacity +
-                ", basePrice=" + basePrice +
-                ", owner='" + owner + '\'' +
                 '}';
     }
 }

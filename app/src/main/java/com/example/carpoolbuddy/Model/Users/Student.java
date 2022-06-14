@@ -6,13 +6,13 @@ import java.util.ArrayList;
 
 public class Student extends User {
     private String graduatingYear;
-    private ArrayList parentUIDs;
+    private ArrayList <String> parentUIDs;
 
     public Student(){
         super();
     }
 
-    public Student(String uid, String name, String email, String userType, double priceMultiplier, ArrayList ownedVehicle, String graduatingYear, ArrayList parentUIDs) {
+    public Student(String uid, String name, String email, String userType, double priceMultiplier, String graduatingYear, ArrayList parentUIDs) {
         super(uid, name, email, userType, priceMultiplier);
         this.graduatingYear = graduatingYear;
         this.parentUIDs = parentUIDs;

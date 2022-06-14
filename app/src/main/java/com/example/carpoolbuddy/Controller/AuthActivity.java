@@ -47,8 +47,6 @@ AuthActivity extends AppCompatActivity {
         String emailString = emailfield.getText().toString();
         String passwordString = passwordfield.getText().toString();
 
-        System.out.println(String.format("email: %s and password: %s", emailString, passwordString));
-
         FirebaseUser mUser = mAuth.getCurrentUser();
         mAuth.signInWithEmailAndPassword(emailString, passwordString).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
@@ -77,7 +75,7 @@ AuthActivity extends AppCompatActivity {
 
     public void updateUI(FirebaseUser currentuUser){
         if (currentuUser != null) {
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, UserProfileActivity.class);
             startActivity(intent);
         }
     }

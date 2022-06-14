@@ -16,6 +16,9 @@ import android.widget.Toast;
 
 import com.example.carpoolbuddy.Controller.UserProfileActivity;
 import com.example.carpoolbuddy.Model.Users.Alumni;
+import com.example.carpoolbuddy.Model.Users.Parent;
+import com.example.carpoolbuddy.Model.Users.Student;
+import com.example.carpoolbuddy.Model.Users.Teacher;
 import com.example.carpoolbuddy.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -84,6 +87,13 @@ public class Sign_up extends AppCompatActivity {
             gradYearField.setHint("Graduation year");
             layout.addView(gradYearField);
         }
+        //commonFields();
+        if(selectedRole.equals("Student")) {
+            System.out.println("STUDENT");
+            gradYearField = new EditText(this);
+            gradYearField.setHint("Graduating year");
+            layout.addView(gradYearField);
+        }
     }
 
     public void commonFields() {
@@ -104,6 +114,9 @@ public class Sign_up extends AppCompatActivity {
         String nameString = nameField.getText().toString();
         String emailString = emailField.getText().toString();
         String passwordString = passwordField.getText().toString();
+
+        //if(emailString)
+
 //        System.out.print("Email is"+emailString);
 //        System.out.print("Password is"+passwordString);
         mAuth.createUserWithEmailAndPassword(emailString, passwordString).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -133,6 +146,25 @@ public class Sign_up extends AppCompatActivity {
             Alumni newUser = new Alumni(userId, nameString, emailString, "Alumni", 0.0, ""+gradYearInt);
             firestore.collection("users").document(userId).set(newUser);
         }
+        else if(selectedRole.equals("Student")) {
+            int gradYearInt = Integer.parseInt(gradYearField.getText().toString());
+            Student newUser = new Student(userId, nameString, emailString, "Student", 0.0, ""+gradYearInt, null);
+            firestore.collection("users").document(userId).set(newUser);
+        }
+        else if(selectedRole.equals("Parent")) {
+            Parent newUser = new Parent(userId, nameString, emailString, "Parent", 0.0, null);
+            firestore.collection("users").document(userId).set(newUser);
+        }
+        else if(selectedRole.equals("Teacher")) {
+            int gradYearInt = Integer.parseInt(gradYearField.getText().toString());
+            Teacher newUser = new Teacher(userId, nameString, emailString, "Teacher", 0.0, null);
+            firestore.collection("users").document(userId).set(newUser);
+        }
+    }
+
+    public void logIn(View v) {
+        Intent intent = new Intent(this, AuthActivity.class);
+        startActivity(intent);
     }
 
     public void updateUI(FirebaseUser currentUser) {
